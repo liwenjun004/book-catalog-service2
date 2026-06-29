@@ -1,0 +1,24 @@
+工具 ： intellij idea  集成通义灵码插件
+
+智能问答模式
+
+搭建一个图书目录后端接口服务
+
+项目要求 1. Spring Boot + spring + MyBatis + MySQL + Java 8
+         2. druid数据库连接池  创建数据库表  category表，book表 并新增示例数据
+         3. DDD分层架构  充血模型  controller（接口），service（业务编排），common(公共), domain（领域逻辑处理），infra(基础设施)，Repository（数据源防腐）
+         4. 按照分类和图书 提供 创建，修改，删除，查询等接口  RESTful风格
+         5.  至少采用两种java设计模式
+
+
+生成系统分层架构图
+
+智能体模式
+
+          1.现在对整个项目需求有了清晰的理解，下面搭建完整的图书目录后端服务。
+
+          2.检测代码是否符合阿里编码规范并优化代码结构。
+
+          3.创建 Controller 层的接口测试用例，使用 MockMvc 进行 RESTful 接口测试
+
+          4.为类，接口，方法，属性 添加相关注释

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.book.infra.mapper.BookMapper">
+
+    <!-- 图书表结果映射 -->
+    <resultMap id="BaseResultMap" type="org.book.infra.dataobject.BookDO">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="author" property="author"/>
+        <result column="isbn" property="isbn"/>
+        <result column="publisher" property="publisher"/>
+        <result column="publish_date" property="publishDate"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="description" property="description"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+
+    <!-- 基础查询列 -->
+    <sql id="Base_Column_List">
+        id, title, author, isbn, publisher, publish_date, price, stock, description, category_id, created_at, updated_at, deleted
+    </sql>
+
+    <!-- 根据ID查询图书 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM book
+        WHERE id = #{id} AND deleted = 0
+    </select>
+
+    <!-- 查询所有图书 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM book
+        WHERE deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据分类ID查询图书列表 -->
+    <select id="selectByCategoryId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM book
+        WHERE category_id = #{categoryId} AND deleted = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 插入图书 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO book (title, author, isbn, publisher, publish_date, price, stock, description, category_id, created_at, updated_at, deleted)
+        VALUES (#{title}, #{author}, #{isbn}, #{publisher}, #{publishDate}, #{price}, #{stock}, #{description}, #{categoryId}, NOW(), NOW(), 0)
+    </insert>
+
+    <!-- 更新图书 -->
+    <update id="updateById">
+        UPDATE book
+        SET title = #{title},
+            author = #{author},
+            isbn = #{isbn},
+            publisher = #{publisher},
+            publish_date = #{publishDate},
+            price = #{price},
+            stock = #{stock},
+            description = #{description},
+            category_id = #{categoryId},
+            updated_at = NOW()
+        WHERE id = #{id} AND deleted = 0
+    </update>
+
+    <!-- 根据ID删除图书（逻辑删除） -->
+    <delete id="deleteById">
+        UPDATE book
+        SET deleted = 1, updated_at = NOW()
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 根据分类ID删除图书（逻辑删除） -->
+    <delete id="deleteByCategoryId">
+        UPDATE book
+        SET deleted = 1, updated_at = NOW()
+        WHERE category_id = #{categoryId}
+    </delete>
+
+</mapper>
